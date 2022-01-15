@@ -29,7 +29,6 @@ public class PullRequestService {
         HttpResponse<String> response= ReceiveData.useGitApi(requestForPullRequest);
         JsonElement jsonElement = JsonParser.parseString(response.body());
 
-        System.out.println(jsonElement.toString());
         JsonArray jsonArray = jsonElement.getAsJsonArray();
         return jsonArray;
     }
@@ -68,7 +67,6 @@ public class PullRequestService {
             builder.append("\n");
             printWriter.append(builder.toString());
         }
-//        printWriter.write(builder.toString());
         printWriter.close();
         System.out.println("Write to CSV "+ output);
     }

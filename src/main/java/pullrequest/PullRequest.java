@@ -57,7 +57,6 @@ public class PullRequest {
     public List<Comment> getCommentList(String comments_url) {
         List<Comment> commentList = new LinkedList<>();
         try{
-
             HttpResponse<String> response = ReceiveData.useGitApi(comments_url);
             JsonElement jsonComments = JsonParser.parseString(response.body());
             for(JsonElement jsonElement:jsonComments.getAsJsonArray()){
