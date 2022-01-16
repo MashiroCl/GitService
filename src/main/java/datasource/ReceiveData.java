@@ -38,11 +38,10 @@ public class ReceiveData {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().
                 header("Accept","application/vnd.github.v3+json").
-                header("Authorization",gitToken).
+                header("Authorization","token " +gitToken).
                 uri(URI.create(api))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
         return response;
         }
 

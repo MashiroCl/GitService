@@ -45,7 +45,7 @@ public class PullRequestService {
         PrintWriter printWriter = null;
         StringBuilder builder = new StringBuilder();
             try{
-                printWriter = new PrintWriter(new File(output));
+                printWriter = new PrintWriter(output);
                 if(!Files.exists(Paths.get(output))){
                     String columnNamesList = "url, created data, updated data, paticipants";
                     builder.append(columnNamesList+"\n");
@@ -57,13 +57,15 @@ public class PullRequestService {
         for(PullRequest pullRequest:pullRequestList){
             builder = new StringBuilder();
             builder.append(pullRequest.comments_url+",");
-            builder.append(pullRequest.created_at+",");
-            builder.append(pullRequest.updated_at+",");
-            for(String developer:pullRequest.developerCommentsCount.keySet()){
-                builder.append(developer+",");
-                builder.append(pullRequest.developerCommentsCount.get(developer).toString());
-                builder.append(",");
+            builder.append(pullRequest.state).append(",");
+            builder.append(pullRequest.login).append(",").append(pullRequest.created_at).append(",");
+            for(Comment comment:pullRequest.commentList){
+                builder.append(comment.getUser()).append(",").append(comment.getCreated_at()).append(",");
             }
+            if(pullRequest.state==State.merged||pullRequest.state==State.closed){
+            builder.append(pullRequest.closedmerged_by).append(",").append(pullRequest.closedmerged_at).append(",");
+            }
+
             builder.append("\n");
             printWriter.append(builder.toString());
         }
