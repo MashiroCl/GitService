@@ -43,6 +43,7 @@ public class PullRequest {
         } catch (IOException | InterruptedException e){
             e.printStackTrace();
         }
+
         state = getState(jsonObject);
         login = jsonObject.get("user").getAsJsonObject().get("login").toString().replaceAll("\"","").trim();
         body = jsonObject.get("body").toString();
@@ -60,7 +61,14 @@ public class PullRequest {
             } catch (IOException | InterruptedException e){
                 e.printStackTrace();
             }
-            closedmerged_by = jsonObject_issue.get("closed_by").getAsJsonObject().get("login").toString().replaceAll("\"","").trim();
+//            pull request is not closed anonymously
+            if (jsonObject_issue.get("closed_by").equals("null")) {
+                closedmerged_by = jsonObject_issue.get("closed_by").getAsJsonObject().get("login").toString().replaceAll("\"", "").trim();
+            }
+//            if closed anonymously, set the pull request proposer as the closer
+            else{
+                closedmerged_by = jsonObject_issue.get("user").getAsJsonObject().get("login").toString();
+            }
             closedmerged_at = jsonObject_issue.get("closed_at").toString();
         }
         else if(state==State.merged){
