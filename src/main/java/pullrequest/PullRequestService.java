@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author mashirocl@gmail.com
@@ -56,14 +57,14 @@ public class PullRequestService {
             }
         for(PullRequest pullRequest:pullRequestList){
             builder = new StringBuilder();
-            builder.append(pullRequest.comments_url+",");
-            builder.append(pullRequest.state).append(",");
-            builder.append(pullRequest.login).append(",").append(pullRequest.created_at).append(",");
+            builder.append(pullRequest.comments_url+", ");
+            builder.append(pullRequest.state).append(", ");
+            builder.append(pullRequest.login).append(", ").append(pullRequest.created_at).append(", ");
             for(Comment comment:pullRequest.commentList){
-                builder.append(comment.getUser()).append(",").append(comment.getCreated_at()).append(",");
+                builder.append(comment.getUser()).append(", ").append(comment.getCreated_at()).append(", ");
             }
             if(pullRequest.state==State.merged||pullRequest.state==State.closed){
-            builder.append(pullRequest.closedmerged_by).append(",").append(pullRequest.closedmerged_at).append(",");
+            builder.append(pullRequest.closedmerged_by).append(", ").append(pullRequest.closedmerged_at).append(", ");
             }
 
             builder.append("\n");
@@ -72,6 +73,5 @@ public class PullRequestService {
         printWriter.close();
         System.out.println("Write to CSV "+ output);
     }
-
 
 }
